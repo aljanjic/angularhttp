@@ -76,25 +76,25 @@ export class AppComponent implements OnInit{
 
 
   onGetUser():void{
-    this.userService.getUser().subscribe(
-      (response) =>{
+    this.userService.getUser().subscribe({
+      next: (response) =>{
         console.log(response),
         this.users.push(response)
       },
-      (error) => console.log(error),
-      () => console.log('Done getting user')
-    )
+      error: (error) => console.log(error),
+      complete: () => console.log('Done getting user')
+    })
 
   }
 
 
   onCreateUser(){
 
-    this.userService.createUser(this.user).subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error),
-      () => console.log('User was created')
-    )
+    this.userService.createUser(this.user).subscribe({
+      next: (response) => console.log(response),
+      error: (error) => console.log(error),
+      complete:() => console.log('User was created')
+    })
   }
 
   onUpdateUser(){
