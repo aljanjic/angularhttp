@@ -16,6 +16,8 @@ export class UserService {
   readonly moreParamms = ['Aljosa', 'Sofija']
   prezime = 'prezume=janjic';
 
+  readonly defaultImage = 'https://robohash.org';
+
   constructor(private http: HttpClient) { }
 
 
@@ -27,15 +29,27 @@ export class UserService {
   getUsers(): Observable<User[]>{
     return this.http.get<User[]>(`${this.apiUrl}/users`).pipe(
       tap( (users) => console.log(users)),
-      map((users) => users.map(user => ({
-        ...user,
-        name: user.name.toUpperCase()
+      map((users) => users.map((user) => ({
+        image: `${this.defaultImage}/${user.username.toLowerCase()}`,
+        name: user.name.toUpperCase(),
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        role: user.id === 5 ? 'Admin' : 'User'
       })))
     )
   }
 
   getUser(): Observable<User>{
-    return this.http.get<User>(`${this.apiUrl}/users/1`)
+    return this.http.get<User>(`${this.apiUrl}/users/1`).pipe(
+      map((user) => ({
+        image: `${this.defaultImage}/${user.username.toLowerCase()}`,
+        name: user.name.toUpperCase(),
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        role: user.id === 5 ? 'Admin' : 'User'
+      })))
   }
 
   createUser(user: User): Observable<User>{

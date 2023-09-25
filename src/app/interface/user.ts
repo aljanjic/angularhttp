@@ -6,8 +6,10 @@ export interface User {
     name: string;
     username: string;
     email: string;
-    address: Address;
+    address?: Address;
+    image?: string;
     phone: string;
-    website: string;
-    company: Company;
+    website?: string;
+    company?: Company;
+    role?: string;
 }
