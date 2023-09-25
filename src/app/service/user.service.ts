@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpParamsOptions } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators'
+import { map, retry, tap } from 'rxjs/operators'
 import { User } from '../interface/user';
 import { environment } from 'src/enviroments/environment';
 
@@ -28,6 +28,7 @@ export class UserService {
 
   getUsers(): Observable<User[]>{
     return this.http.get<User[]>(`${this.apiUrl}/users`).pipe(
+      retry(3),
       tap( (users) => console.log(users)),
       map((users) => users.map((user) => ({
         image: `${this.defaultImage}/${user.username.toLowerCase()}`,
