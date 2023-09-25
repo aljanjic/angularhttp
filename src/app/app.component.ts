@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from './service/user.service';
 import { User } from './interface/user';
 import { HttpEventType } from '@angular/common/http';
@@ -9,7 +9,7 @@ import { tap } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'dailyart';
 
   users:User[];
@@ -58,12 +58,16 @@ export class AppComponent {
 
   constructor(private userService:UserService){}
 
+  ngOnInit(){
+    this.onGetUsers();
+  }
+
 
   onGetUsers():void{
     this.userService.getUsers().subscribe(
       (response) => {
         this.users = response
-        console.table(response)
+        console.log(response)
       },
       (error) => console.log(error),
       () => console.log('Done getting users')
@@ -73,7 +77,10 @@ export class AppComponent {
 
   onGetUser():void{
     this.userService.getUser().subscribe(
-      (response) => console.log(response),
+      (response) =>{
+        console.log(response),
+        this.users.push(response)
+      },
       (error) => console.log(error),
       () => console.log('Done getting user')
     )
