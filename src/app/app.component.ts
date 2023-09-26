@@ -98,27 +98,27 @@ export class AppComponent implements OnInit{
   }
 
   onUpdateUser(){
-    this.userService.updateUser(this.user).subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error),
-      () => console.log('User was updated')
-    )
+    this.userService.updateUser(this.user).subscribe({
+      next: (response) => console.log(response),
+      error: (error) => console.log(error),
+      complete: () => console.log('User was updated')
+    })
   }
 
   onPatchUser(){
-    this.userService.patchUser(this.user2).subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error),
-      () => 'User was patched'
-    )
+    this.userService.patchUser(this.user2).subscribe({
+      next: (response) => console.log(response),
+      error: (error) => console.log(error),
+      complete: () => 'User was patched'
+    })
   }
 
   onDeleteUser(){
-    this.userService.deleteUser(5).subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error),
-      () => console.log('Deleting was done')
-    )
+    this.userService.deleteUser(5).subscribe({
+      next: (response) => console.log(response),
+      error: (error) => console.log(error),
+      complete: () => console.log('Deleting was done')
+    })
   }
 
 
