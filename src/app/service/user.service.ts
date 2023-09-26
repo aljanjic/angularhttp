@@ -27,7 +27,7 @@ export class UserService {
 
 
   getUsers(): Observable<User[]>{
-    return this.http.get<User[]>(`${this.apiUrl}/usersdsa`).pipe(
+    return this.http.get<User[]>(`${this.apiUrl}/users`).pipe(
       retry(3),
       tap( (users) => console.log(users)),
       map((users) => users.map((user) => ({
