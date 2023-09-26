@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpParamsOptions } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders, HttpParams, HttpParamsOptions, HttpResponse } from '@angular/common/http';
+import { Observable, SchedulerLike, of, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators'
 import { User } from '../interface/user';
 import { environment } from 'src/enviroments/environment';
@@ -38,9 +38,10 @@ export class UserService {
         phone: user.phone,
         role: user.id === 5 ? 'Admin' : 'User'
       }))),
-
+      catchError(this.handleError)
     )
   }
+
 
   getUser(): Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/users/1`).pipe(
@@ -75,6 +76,16 @@ export class UserService {
     {observe: 'events', reportProgress: true  });
   }
 
+  handleError(error: HttpErrorResponse):Observable<never>{
+    if(error.status === 404){
+      return throwError(()=>{
+        return 'Page Not Found'
+      })
+    }
+    return throwError(() => {
+      return error
+    })
+  }
 
 
 
